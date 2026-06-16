@@ -1,0 +1,81 @@
+"""
+config_manager.py
+Responsabilidad: Cargar, guardar y gestionar la configuración
+del usuario y el historial de limpiezas.
+"""
+# pylint: disable=missing-final-newline
+
+import json
+import os
+from pathlib import Path
+
+
+# Ruta donde se guardan los datos del usuario en Windows
+APP_DATA = os.path.join(os.environ.get("APPDATA", ""), "CacheCleanerPro")
+SETTINGS_FILE = os.path.join(APP_DATA, "settings.json")
+HISTORY_FILE = os.path.join(APP_DATA, "history.json")
+MAX_HISTORIAL = 100
+
+# Ruta del settings.json por defecto (el del proyecto)
+DEFAULT_SETTINGS = Path(__file__).parent.parent / "config" / "settings.json"
+
+
+def inicializar():
+    """
+    Crea la carpeta de datos del usuario si no existe
+    y copia la configuración por defecto si es la primera vez.
+    """
+    os.makedirs(APP_DATA, exist_ok=True)
+
+    if not os.path.exists(SETTINGS_FILE):
+        with open(DEFAULT_SETTINGS, "r", encoding="utf-8") as f:
+            config_default = json.load(f)
+        guardar_settings(config_default)
+
+    if not os.path.exists(HISTORY_FILE):
+        guardar_historial({"version": "1.0", "sessions": []})
+
+
+def cargar_settings() -> dict:
+    """Carga y retorna la configuración del usuario."""
+    try:
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        with open(DEFAULT_SETTINGS, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+
+def guardar_settings(config: dict):
+    """Guarda la configuración del usuario en disco."""
+    with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2, ensure_ascii=False)
+
+
+def cargar_historial() -> dict:
+    """Carga y retorna el historial de limpiezas."""
+    try:
+        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"version": "1.0", "sessions": []}
+
+
+def guardar_historial(historial: dict):
+    """Guarda el historial en disco."""
+    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(historial, f, indent=2, ensure_ascii=False)
+
+
+def agregar_sesion(sesion: dict):
+    """
+    Agrega una sesión de limpieza al historial.
+    Si supera el máximo de 100, elimina la más antigua.
+    """
+    historial = cargar_historial()
+    historial["sessions"].insert(0, sesion)
+
+    if len(historial["sessions"]) > MAX_HISTORIAL:
+        historial["sessions"] = historial["sessions"][:MAX_HISTORIAL]
+
+    guardar_historial(historial)

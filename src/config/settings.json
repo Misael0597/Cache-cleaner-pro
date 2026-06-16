@@ -1,0 +1,97 @@
+{
+  "version": "1.0",
+  "app": {
+    "run_on_startup": false,
+    "minimize_to_tray": true,
+    "show_notifications": true,
+    "language": "es"
+  },
+  "scheduler": {
+    "enabled": false,
+    "mode": "interval",
+    "interval_hours": 24,
+    "scheduled_time": "03:00",
+    "last_run": null
+  },
+  "categories": {
+    "system_temp": {
+      "enabled": true,
+      "label": "Archivos Temporales del Sistema",
+      "paths": ["%TEMP%", "C:\\Windows\\Temp"],
+      "requires_admin": false
+    },
+    "windows_prefetch": {
+      "enabled": true,
+      "label": "Prefetch de Windows",
+      "paths": ["C:\\Windows\\Prefetch"],
+      "requires_admin": true
+    },
+    "windows_thumbnails": {
+      "enabled": true,
+      "label": "Caché de Miniaturas",
+      "paths": ["%LOCALAPPDATA%\\Microsoft\\Windows\\Explorer"],
+      "requires_admin": false
+    },
+    "windows_update": {
+      "enabled": false,
+      "label": "Caché de Windows Update",
+      "paths": ["C:\\Windows\\SoftwareDistribution\\Download"],
+      "requires_admin": true
+    },
+    "dns_cache": {
+      "enabled": true,
+      "label": "Caché DNS",
+      "command": "ipconfig /flushdns",
+      "paths": [],
+      "requires_admin": true
+    },
+    "chrome": {
+      "enabled": true,
+      "label": "Google Chrome",
+      "paths": ["%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Cache"],
+      "requires_admin": false
+    },
+    "firefox": {
+      "enabled": true,
+      "label": "Mozilla Firefox",
+      "paths": ["%LOCALAPPDATA%\\Mozilla\\Firefox\\Profiles"],
+      "requires_admin": false
+    },
+    "edge": {
+      "enabled": true,
+      "label": "Microsoft Edge",
+      "paths": ["%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\Default\\Cache"],
+      "requires_admin": false
+    },
+    "brave": {
+      "enabled": true,
+      "label": "Brave Browser",
+      "paths": ["%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Cache"],
+      "requires_admin": false
+    },
+    "discord": {
+      "enabled": true,
+      "label": "Discord",
+      "paths": ["%APPDATA%\\discord\\Cache", "%APPDATA%\\discord\\Code Cache"],
+      "requires_admin": false
+    },
+    "spotify": {
+      "enabled": true,
+      "label": "Spotify",
+      "paths": ["%LOCALAPPDATA%\\Spotify\\Data"],
+      "requires_admin": false
+    },
+    "teams": {
+      "enabled": true,
+      "label": "Microsoft Teams",
+      "paths": ["%APPDATA%\\Microsoft\\Teams\\Cache", "%APPDATA%\\Microsoft\\Teams\\Application Cache"],
+      "requires_admin": false
+    },
+    "vscode": {
+      "enabled": true,
+      "label": "VS Code",
+      "paths": ["%APPDATA%\\Code\\Cache", "%APPDATA%\\Code\\CachedData"],
+      "requires_admin": false
+    }
+  }
+}
